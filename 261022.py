@@ -32,6 +32,7 @@ f = "Fault"
 F = "FAULT"
 print(f == F, "->", f.lower() == F.lower())
 work = " 가동중"
+#strip
 print(work.strip())
 print("ABC".isupper(),"/", "abc".islower(),"/", "Abc".islower())
 title = "Sensor_LOG_CSV"
@@ -49,6 +50,7 @@ a = "설비 정상 가동"
 b = a.replace("정상", "점검")
 print(b)
 c = "PUMP 0A 03"
+#split
 print(c.split())
 a = "a, b, c, d"
 print(a.split(","))
