@@ -66,12 +66,12 @@ a = len(os.listdir("data"))
 b = datetime.datetime.now()
 print(f"파일 {a} 개, 점검시각 {b}")
 
-import os
-files = os.listdir("data")
-list = []
-for names in files:
-    if names.endswith(".csv"):
-        list.append(names)
+#import os
+#files = os.listdir("data")
+#list_my = []
+#for names in files:
+#    if names.endswith(".csv"):
+#        list.append(names)
 
 print(f"파일목록 {list}")
 
@@ -96,19 +96,41 @@ with open(FILE, "r", encoding = 'utf-8') as f:
 #    file.write("안녕하세요, 새로운 내용입니다.\n")A
 #    file.write("기존에 이 파일이 있었다면, 그 내용은 모두 지워졌습니다.\n")
 
-with open(FILE, "a", encoding = 'utf-8') as k:
-    k.write("a 모드 테스트\n")
-    k.write("내용보존확인") 
-print(k)
+#with open(FILE, "a", encoding = 'utf-8') as k:
+#    k.write("a 모드 테스트\n")
+#    k.write("내용보존확인") 
+#print(k)
+
+#import csv
+#with open(FILE, "r", encoding = 'utf-8') as v:
+#    reader = csv.reader(v)
+#    for line in reader:
+#        print(line)
+
+#import csv
+#with open(FILE, "w", encoding = 'utf-8', newline = '') as f:
+#    writer = csv.writer(f)
+#    writer.writerow(["csv writer 점검", "출력확인"])
+#print(f)
 
 import csv
-with open(FILE, "r", encoding = 'utf-8') as v:
-    reader = csv.reader(v)
-    for line in reader:
-        print(line)
+#새로운 리스트변수선언
+head = []
+with open(FILE, "r", encoding = 'utf-8') as u:
+    reader = csv.reader(u)
+    #헤더값 건너뛰기
+    #header = next(reader)를 쓰면 헤더값을 바로 건너뛸 수 있다.
+    header = next(reader)
+#header = rows[0]
+#data = rows[1:]-> 이걸 쓰려면 파일 전체를 list에 담아야한다.
+#head = [header]
+#90초과만 새로운 리스트 담기
+    for row in reader:
+        value = float(row[4])
+        if value >= 90:
+            head.append(row)
 
-import csv
-with open(FILE, "w", encoding = 'utf-8', newline = '') as f:
-    writer = csv.writer(f)
-    writer.writerow(["csv writer 점검", "출력확인"])
-print(f)
+with open(FILE, 'w', encoding = 'utf-8', newline = '') as k:
+    writer = csv.writer(k)
+    writer.writerow(header)
+    writer.writerows(head)
