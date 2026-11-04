@@ -121,9 +121,8 @@ def verify_part_counts(valid_rows):
         part_stat_results[part_name] = calc_stats(part_rows, 2)
         total_sum += len(part_rows)
     check_sum = (total_sum == len(valid_rows))
+    print(f"부품별 합계: {total_sum}, 전체 행 수: {len(valid_rows)}, 일치 여부: {check_sum}")
     return total_sum, len(valid_rows), check_sum
-print(verify_part_counts(valid_rows))
-
 
     raise NotImplementedError("실습 6: 부품별 검증 함수를 완성하세요")
 
