@@ -1,77 +1,76 @@
-markdown
-# 🏭 포스코 K-뉴딜 아카데미: 설비 고장을 예측하는 AI 데이터 분석 (4기)
+# 제조 데이터 분석 학습 기록
 
-> **스마트팩토리 예지보전(PdM)을 위한 제조 설비(MCT, 다이캐스팅, 유압쿨러, 콤프레서) 센서 데이터 정제, 통계적 이상 탐지(IQR·Z-Score) 및 다변량 원인 분석 파이프라인 아카이브**
+Python 기초부터 NumPy, Pandas까지 설비 데이터를 다루며 배운 내용을 날짜순으로 정리한 저장소입니다.
+파일명은 `YYMMDD_주제.py` 형식이며, 각 파일에 학습 내용과 직접 푼 실습이 들어 있습니다.
 
-![Python](https://shields.io)
-![NumPy](https://shields.io)
-![Pandas](https://shields.io)
+**학습 기간:** 2026.10.20 ~ 2026.11.13
 
----
+## 학습 흐름
 
-## 📌 1. 교육 및 프로젝트 개요
-
-포스코인재창조원 주관 **K-뉴딜 아카데미 4기(설비 고장을 예측하는 AI 데이터 분석)** 과정을 수강하며 작성한 실습 및 분석 코드 아카이브입니다.
-실제 제조 현장의 **MCT 공작기계, 다이캐스팅, 유압 쿨러, 산업용 콤프레서** 센서 로그 데이터를 대상으로 결측·오염 데이터 예외 처리부터 통계적 이상치 탐지, 설비 마스터 테이블 결합(Join), 상태별 그룹 집계 및 다중 센서 상관관계 분석까지 데이터 전처리·EDA의 전 과정을 구현했습니다.
-
-* **교육 과정:** 포스코 K-뉴딜 아카데미 4기 (설비 고장을 예측하는 AI 데이터 분석)
-* **핵심 구현 역량:**
-  1. **결함 데이터 예외 처리 및 ETL 파이프라인:** 오염된 CSV 로그(`dirty.csv`) 예외 처리(`try-except`) 및 임계치 초과 데이터 자동 필터링
-  2. **NumPy 기반 통계적 이상 탐지:** 사분위수(IQR), Z-Score 표준화, 3-Sigma 규칙, 누적합(`cumsum`) 변화점 탐지, 복합 이상 점수 산출
-  3. **Pandas 기반 제조 공정 다차원 분석:** 설비 로그 병합(`concat`·`merge`) 정합성 검증, 상태별 그룹 집계(`groupby`·`transform`) 및 전체 센서 쌍 상관계수 행렬 도출
-
----
-
-## 🛠️ 2. 기술 스택 (Tech Stack)
-
-* **Language:** Python 3
-* **Data Analysis & Scientific Computing:** NumPy, Pandas
-* **Standard Libraries:** `csv`, `os`, `datetime`, `math`
-
----
-
-## 📂 3. 저장소 구조 (Repository Structure)
-
-```text
-KNA_smart_maintenance_4th/
-├── data/                        # 제조 설비 센서 데이터셋 (압력, MCT, 다이캐스팅, 유압쿨러, 콤프레서 등)
-├── 09_03_pipeline_start.py      # 센서 데이터 수집-예외처리-필터링 통합 파이프라인 스크립트
-├── 09_report.txt                # 파이프라인 실행 및 데이터 점검 요약 리포트
-├── 261020.py ~ 261112.py        # 일자별 센서 핸들링, 통계적 이상 탐지 및 Pandas 심화 분석 실습 코드
-├── 261109pandas.py              # Pandas 기반 설비 로그 정제 및 요약 통계 실습
-└── README.md                    # 프로젝트 및 학습 기록 문서
+```
+Python 기초 → 자료구조·함수 → 파일·예외 처리 → NumPy → Pandas
 ```
 
 ---
 
-## ⚙️ 4. 단계별 핵심 구현 내용 (Code Highlights)
+## 1. Python 기초 (10/20 ~ 10/26)
 
-### ① 데이터 정제 및 예외 처리 파이프라인 (`try-except`, `csv`, `os`)
-* **오염 데이터 방어 로직:** 현장 센서 통신 오류로 발생한 결측 문자열, 범위 이탈값(`-999`, `9999`), 누락된 파일(`FileNotFoundError`)을 `try-except` 및 사용자 정의 검증 함수(`raise ValueError`)로 안전하게 필터링
-* **ETL 자동화 기초:** `os` 및 `csv` 모듈을 활용해 압력 센서 데이터(`08_press.csv`)에서 임계값(90) 이상인 이상 로그만 자동 추출·재저장하는 파이프라인 구축
-* **설비 상태 추적:** `Set` 집합 연산(`difference`, `intersection`)을 이용해 전일 대비 **신규 이상 발생 설비**와 **지속 이상 설비**를 자동 분류
+| 날짜 | 파일 | 학습 내용 |
+|---|---|---|
+| 10/20 | [261020_print_basics.py](261020_print_basics.py) | print 함수, 숫자·문자 출력, 쉼표 출력, 간단한 연산 |
+| 10/20 | [261020_variables_basics.py](261020_variables_basics.py) | 변수 선언, 재할당, 다중 할당 |
+| 10/21 | [261021_datatypes_operators_input.py](261021_datatypes_operators_input.py) | 자료형(int/float/str/bool), 산술·비교 연산자, input |
+| 10/21 | [261021_escape_string_concat.py](261021_escape_string_concat.py) | 이스케이프 문자, 여러 줄 문자열, 문자열 연결 |
+| 10/22 | [261022_string_indexing_methods.py](261022_string_indexing_methods.py) | 문자열 인덱싱·슬라이싱, strip/split/replace 등 메서드 |
+| 10/23 | [261023_join_fstring_list_methods.py](261023_join_fstring_list_methods.py) | join, f-string 서식, 리스트 추가·삭제·정렬 |
+| 10/26 | [261026_if_for_while.py](261026_if_for_while.py) | if/elif/else, for, 구구단, while |
 
-### ② NumPy 기반 시계열 센서 통계적 이상 탐지
-* **MCT 공작기계 & 다이캐스팅 공정 분석:** 회전수(RPM), 토크(Torque), 사이클타임, 형체력 배열에서 급격한 변동 시점(`np.diff`, `np.argmax`)과 불량 구간 비율 산출
-* **다중 통계 기법 기반 이상치(Outlier) 검출:**
-  * **IQR(사분위 범위) & 3-Sigma 규칙:** 유압 쿨러 온도·진동 데이터의 정상 상한 경계(`Q3 + 1.5*IQR`, `μ + 3σ`)를 산출하여 이상 시점 검출
-  * **Z-Score 표준화 및 복합 이상 점수:** 단위가 다른 온도·냉각효율 센서를 Z-Score로 표준화해 합산함으로써 복합 이상 발생 시점 상위 Top-3 도출
-  * **변화점 탐지:** 평균 편차 누적합(`np.cumsum`)의 최솟값(`np.argmin`)으로 설비 상태 급변 직전 시점을 포착
+## 2. 자료구조와 함수 (10/27 ~ 10/30)
 
-### ③ Pandas 기반 제조 데이터 통합 및 상태별 원인 분석
-* **다중 테이블 통합(`concat`, `merge`) 및 정합성 검증:**
-  * 분할된 공정 로그를 `concat`으로 병합할 때 인덱스 초기화(`ignore_index=True`)를 통해 라벨 중복 오류 방지
-  * 공정 로그(`diecasting_shot.csv`)와 설비 기준정보 마스터(`diecasting_master.csv`)를 `inner`, `left`, `outer` 조인으로 결합하여 **기준정보 미등록 설비(`DIE-C-01`)** 및 **미가동 설비(`DIE-D-01`)** 식별
-* **그룹 집계(`groupby`, `transform`) 기반 이상 편차 추출:**
-  * 유압 쿨러 검사결과·냉각기상태(정상/저하/고장)별 온도·냉각효율 통계(`agg`)를 산출하여 상태 저하 시 온도 상승 및 냉각효율 급감 패턴 규명
-  * `transform("mean")`을 활용해 각 설비 상태 그룹 평균 대비 개별 시점의 **온도 편차 절댓값이 가장 큰 이상 시점 Top-3** 도출
-* **다중 센서 상관계수 쌍(Pairwise Correlation) 자동 추출:**
-  * 유압 쿨러의 모든 수치형 센서(`select_dtypes(include="number")`) 간 상관계수 행렬(`corr()`)에서 대칭·자기상관을 제외한 고유 센서 쌍 45개를 추출하고 절댓값 기준으로 핵심 연관 지표(온도-진동 `0.93`, 온도-냉각효율 `-0.95`) 도출
+| 날짜 | 파일 | 학습 내용 |
+|---|---|---|
+| 10/27 | [261027_for_loop_tuple.py](261027_for_loop_tuple.py) | 리스트 순회, 조건 필터링, 튜플 언패킹 |
+| 10/28 | [261028_set_dictionary.py](261028_set_dictionary.py) | 집합 연산, 딕셔너리, 중첩 딕셔너리 |
+| 10/29 | [261029_functions.py](261029_functions.py) | 함수 정의, 매개변수, return, 기본값 |
+| 10/30 | [261030_modules_os_file_csv_io.py](261030_modules_os_file_csv_io.py) | 모듈·import, os 경로, 파일 읽기/쓰기, csv 모듈 |
+
+## 3. 예외 처리 (11/02 ~ 11/03)
+
+| 날짜 | 파일 | 학습 내용 |
+|---|---|---|
+| 11/02 | [261102_exception_handling.py](261102_exception_handling.py) | try/except, 예외 종류, 지저분한 데이터 정제 |
+| 11/03 | [261103_raise_check_value.py](261103_raise_check_value.py) | raise로 값 범위 검증 |
+
+## 4. NumPy (11/04 ~ 11/09)
+
+| 날짜 | 파일 | 학습 내용 |
+|---|---|---|
+| 11/04 | [261104_numpy_array_basics.py](261104_numpy_array_basics.py) | 배열 생성, shape/dtype, reshape, 인덱싱·슬라이싱 |
+| 11/05 | [261105_numpy_stats_masking_csv.py](261105_numpy_stats_masking_csv.py) | 정규화, 불리언 마스크, 통계, CSV 불러오기, argsort/clip/where |
+| 11/06 | [261106_numpy_outlier_missing_corr.py](261106_numpy_outlier_missing_corr.py) | 결측(nan) 처리, IQR·z-score 이상치, 상관계수 |
+| 11/09 | [261109_numpy_zscore_cumsum_score.py](261109_numpy_zscore_cumsum_score.py) | 3시그마, axis별 통계, cumsum 변화 시점, z-score 합산 |
+
+## 5. Pandas (11/09 ~ 11/13)
+
+| 날짜 | 파일 | 학습 내용 |
+|---|---|---|
+| 11/09 | [261109_pandas_read_csv_basics.py](261109_pandas_read_csv_basics.py) | DataFrame/Series, read_csv, usecols, nrows, sep |
+| 11/10 | [261110_pandas_head_info_describe.py](261110_pandas_head_info_describe.py) | head/tail, info, describe, 결측 확인 |
+| 11/10 | [261110_pandas_loc_iloc_sort.py](261110_pandas_loc_iloc_sort.py) | 열 선택, loc vs iloc, sort_values, 인덱스 |
+| 11/11 | [261111_pandas_filter_sort_merge.py](261111_pandas_filter_sort_merge.py) | 조건 필터, str 메서드, 새 열 추가, merge(inner/left/outer) |
+| 11/12 | [261112_pandas_value_counts_cut_groupby.py](261112_pandas_value_counts_cut_groupby.py) | value_counts, cut 구간화, groupby, crosstab |
+| 11/12 | [261112_pandas_concat_merge.py](261112_pandas_concat_merge.py) | concat, merge, dropna |
+| 11/13 | [261113_pandas_agg_transform_corr.py](261113_pandas_agg_transform_corr.py) | groupby agg, transform, pivot_table, 상관계수 행렬 |
 
 ---
 
-## 💡 5. 학습 성과 및 향후 확장 계획
+## 배운 핵심 기술
 
-* **현장 데이터 정합성 및 원인 규명 역량:** 단순 예측 모델 학습 이전에 센서 노이즈(`np.clip`), 결측치 처리, 로그-마스터 테이블 불일치(`left/outer join`) 검증, 그리고 상태 그룹 내 편차(`transform`)와 다변량 상관관계를 분석하는 실무형 데이터 분석 역량을 확보했습니다.
-* **향후 계획:** 
-  * 전공(`스마트ICT융합공학과`)의 **디지털신호처리(FFT)** 및 **머신러닝·딥러닝** 교과목
+- **Python:** 변수·자료형, 문자열, 리스트/튜플/집합/딕셔너리, 조건문·반복문, 함수, 파일 입출력, 예외 처리
+- **NumPy:** 배열 연산, 마스킹, 정렬, 결측 처리, 이상치 탐지(IQR, z-score), 상관분석
+- **Pandas:** CSV 로드, 필터링, 정렬, 병합, 그룹 집계, 구간화, 교차표
+
+## 사용 데이터
+
+설비 센서 데이터(유압 냉각기, 다이캐스팅, 압축기, 공구 등)를 `data/` 폴더의 CSV로 실습했습니다.
+데이터 파일은 저장소에 포함하지 않았습니다.
