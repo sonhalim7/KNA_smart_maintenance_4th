@@ -1,0 +1,36 @@
+from pathlib import Path
+import pandas as pd
+ROOT = Path(__file__).resolve().parent
+DATA = ROOT / 'data'
+PROC = DATA / '15_사출성형_공정.csv'
+LOG = DATA / '15_사출성형_로그.csv'
+df = pd.read_csv(PROC)
+print(df.shape)  # (250, 22)
+
+F_PROC = "data/15_사출성형_공정.csv"
+F_LOG = "data/15_사출성형_로그.csv"
+
+df = pd.read_csv(F_LOG)
+df_a = pd.read_csv(F_PROC)
+
+# 결측 처리
+# - 종류 : NaN, None, NA, NaT
+# - 표현은 달라도 isna()로 결측 여부 확인 가능
+
+s = pd.Series([10, None, 20])
+print(s.mean()) #15.0 -> NaN 값이 있어도 계산이 멈추지 않는다.
+print(s+1) #11.0, NaN, 21.0
+
+print('-' * 20)
+print(df.shape)
+print(df.isna().sum())
+pres = df['사출압력'] == 0
+sped = df['스크루속도'] == -999
+deg = df['배럴온도'] == 999
+print(pres.sum(), sped.sum(), deg.sum())
+
+print('-' * 20)
+print(df_a.shape)
+print(df_a.info())
+df_count = df_a['최대사출속도'].describe()
+print(df_count[['count', 'min', 'max']])
